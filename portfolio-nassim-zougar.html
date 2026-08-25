@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nassim Zougar — Support informatique & administration réseaux</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bp-900:#0F2038;
+    --bp-800:#15304F;
+    --bp-700:#1D4269;
+    --bp-line:#2C557F;
+    --paper:#E7E4D6;
+    --ink:#1C2430;
+    --text:#EBF0F2;
+    --text-muted:#9FB2C4;
+    --text-dim:#5E7690;
+    --orange:#E2884A;
+    --green:#77BE87;
+    --teal:#57A79E;
+    --brown:#AD8258;
+    --radius:10px;
+    --radius-lg:16px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bp-900);
+    color:var(--text);
+    font-family:'IBM Plex Sans',sans-serif;
+    line-height:1.6;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(var(--bp-700) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bp-700) 1px, transparent 1px),
+      linear-gradient(var(--bp-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--bp-line) 1px, transparent 1px);
+    background-size:88px 88px, 88px 88px, 22px 22px, 22px 22px;
+    opacity:0.35;
+    mask-image:radial-gradient(ellipse 85% 65% at 50% 0%, black 0%, transparent 75%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  h1,h2,h3{
+    font-family:'IBM Plex Sans Condensed', sans-serif;
+    letter-spacing:-0.01em;
+  }
+
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;text-decoration:none;}
+
+  :focus-visible{
+    outline:2px solid var(--orange);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+
+  .wrap{
+    max-width:1120px;
+    margin:0 auto;
+    padding:0 32px;
+    position:relative;
+    z-index:1;
+  }
+
+  /* ---------- NAV ---------- */
+  .site-nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    backdrop-filter:blur(10px);
+    background:rgba(15,32,56,0.82);
+    border-bottom:1px solid var(--bp-700);
+  }
+  .site-nav .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 32px;
+  }
+  .brand{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:14px;
+    font-weight:500;
+    display:flex;
+    align-items:center;
+    gap:9px;
+    color:var(--text);
+  }
+  .brand .led{
+    width:8px;height:8px;border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 6px var(--green);
+  }
+  .nav-links{display:flex;gap:26px;font-size:13.5px;color:var(--text-muted);}
+  .nav-links a{transition:color .15s;}
+  .nav-links a:hover{color:var(--orange);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:88px 0 76px;
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:52px;
+    align-items:start;
+  }
+  .badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    color:var(--orange);
+    background:rgba(226,136,74,0.08);
+    border:1px solid rgba(226,136,74,0.35);
+    display:inline-block;
+    padding:6px 12px;
+    border-radius:20px;
+    margin-bottom:22px;
+    line-height:1.5;
+    max-width:460px;
+  }
+  .hero h1{
+    font-size:clamp(34px,4.6vw,50px);
+    line-height:1.08;
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .hero h1 .role{
+    display:block;
+    font-size:0.55em;
+    font-weight:500;
+    color:var(--text-muted);
+    margin-top:8px;
+    letter-spacing:0;
+  }
+  .hero p.lead{
+    font-size:16px;
+    color:var(--text-muted);
+    max-width:480px;
+    margin:22px 0 28px;
+  }
+  .location{
+    font-size:13.5px;
+    color:var(--text-dim);
+    font-family:'IBM Plex Mono', monospace;
+    margin-bottom:30px;
+  }
+  .cta-row{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    padding:12px 22px;
+    border-radius:8px;
+    font-size:13.5px;
+    font-weight:600;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    border:1px solid transparent;
+    transition:transform .15s ease, border-color .15s ease, background .15s ease;
+  }
+  .btn-primary{
+    background:var(--orange);
+    color:#241407;
+  }
+  .btn-primary:hover{transform:translateY(-2px);}
+  .btn-ghost{
+    border-color:var(--bp-700);
+    background:var(--bp-800);
+    color:var(--text);
+  }
+  .btn-ghost:hover{border-color:var(--orange);color:var(--orange);transform:translateY(-2px);}
+
+  /* ---------- TERMINAL (signature element) ---------- */
+  .terminal{
+    background:#0B1626;
+    border:1px solid var(--bp-700);
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    box-shadow:0 24px 60px -24px rgba(0,0,0,0.55);
+  }
+  .terminal-bar{
+    background:var(--bp-800);
+    padding:9px 16px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--text-dim);
+    border-bottom:1px solid var(--bp-700);
+  }
+  .terminal-body{
+    padding:20px 18px 22px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.2px;
+    overflow-x:auto;
+  }
+  .terminal-body .prompt{
+    color:var(--green);
+    margin-bottom:12px;
+    white-space:nowrap;
+  }
+  .terminal-body .prompt::before{content:"› ";color:var(--text-dim);}
+  .terminal-body .prompt.cursor::after{
+    content:"▌";
+    margin-left:4px;
+    animation:blink 1.1s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .iface-table{
+    display:grid;
+    grid-template-columns:64px 1fr 78px 60px;
+    row-gap:7px;
+    column-gap:10px;
+    min-width:380px;
+    margin-bottom:14px;
+  }
+  .iface-row{display:contents;}
+  .iface-row > span{white-space:nowrap;}
+  .iface-row.head > span{
+    color:var(--text-dim);
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    padding-bottom:4px;
+    border-bottom:1px solid var(--bp-700);
+  }
+  .iface-row .port{color:var(--teal);}
+  .iface-row .status{color:var(--green);}
+  .iface-row .status.down{color:var(--text-dim);}
+
+  /* ---------- SECTION shared ---------- */
+  section{padding:68px 0;border-top:1px solid var(--bp-700);}
+  .section-head{margin-bottom:36px;}
+  .section-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    display:block;
+    margin-bottom:8px;
+  }
+  .section-head h2{font-size:26px;}
+
+  /* ---------- SKILLS / SPEC SHEET ---------- */
+  .chip-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:30px;}
+  .chip{
+    background:var(--bp-800);
+    border:1px solid var(--bp-700);
+    border-radius:8px;
+    padding:10px 16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+  }
+  .chip .led{width:7px;height:7px;border-radius:50%;background:var(--orange);}
+  .chip:nth-child(3n+2) .led{background:var(--teal);}
+  .chip:nth-child(3n+3) .led{background:var(--brown);}
+
+  .spec-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+  }
+  .spec-card{
+    background:var(--bp-800);
+    border:1px solid var(--bp-700);
+    border-left:3px solid var(--orange);
+    border-radius:var(--radius);
+    padding:20px 22px;
+  }
+  .spec-card:nth-child(3n+2){border-left-color:var(--teal);}
+  .spec-card:nth-child(3n+3){border-left-color:var(--brown);}
+  .spec-card h3{font-size:15.5px;margin-bottom:7px;}
+  .spec-card p{font-size:13.3px;color:var(--text-muted);}
+  .spec-card .plate{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    color:var(--text-dim);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    display:block;
+    margin-bottom:8px;
+  }
+
+  /* ---------- EXPERIENCE — rack elevation ---------- */
+  .rack{display:flex;flex-direction:column;gap:14px;}
+  .unit{
+    position:relative;
+    background:linear-gradient(180deg,#193456,#132A47);
+    border:1px solid var(--bp-700);
+    border-left:4px solid var(--orange);
+    border-radius:8px;
+    padding:18px 22px 18px 28px;
+  }
+  .unit:nth-of-type(4n+2){border-left-color:var(--teal);}
+  .unit:nth-of-type(4n+3){border-left-color:var(--green);}
+  .unit:nth-of-type(4n+4){border-left-color:var(--brown);}
+  .unit.current{background:linear-gradient(180deg,#1E3F63,#173453);}
+  .unit-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:8px 16px;
+    margin-bottom:4px;
+  }
+  .unit-id{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    color:var(--text-dim);
+  }
+  .unit h3{font-size:17px;}
+  .unit .role-line{font-size:13.3px;color:var(--text-muted);margin-bottom:11px;}
+  .unit .role-line .loc{color:var(--text-dim);}
+  .unit-date{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--orange);
+    white-space:nowrap;
+  }
+  .unit ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+  .unit li{
+    font-size:13.3px;
+    color:var(--text-muted);
+    padding-left:16px;
+    position:relative;
+  }
+  .unit li::before{
+    content:"$";
+    position:absolute;
+    left:0;
+    color:var(--text-dim);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+  }
+
+  /* ---------- FORMATION — certification plates ---------- */
+  .cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .cert{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:var(--radius);
+    padding:24px 26px;
+    position:relative;
+  }
+  .cert::before{
+    content:"";
+    position:absolute;
+    top:14px;right:14px;
+    width:10px;height:10px;
+    border-radius:50%;
+    background:var(--orange);
+  }
+  .cert .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10.5px;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:#6B4A2B;
+    display:block;
+    margin-bottom:9px;
+  }
+  .cert h3{font-size:17px;margin-bottom:6px;color:var(--ink);}
+  .cert p{font-size:13.3px;color:#4A5566;}
+  .cert .period{
+    margin-top:14px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:#6B7686;
+  }
+
+  /* ---------- CONTACT ---------- */
+  .contact-panel{
+    background:var(--bp-800);
+    border:1px solid var(--bp-700);
+    border-radius:18px;
+    padding:52px 40px;
+    text-align:center;
+  }
+  .contact-panel h2{font-size:28px;margin-bottom:10px;}
+  .contact-panel p{color:var(--text-muted);margin-bottom:28px;}
+  .contact-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+
+  footer{
+    text-align:center;
+    padding:30px 0 38px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--text-dim);
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:860px){
+    .hero{grid-template-columns:1fr;padding-top:52px;}
+    .spec-grid{grid-template-columns:1fr;}
+    .cert-grid{grid-template-columns:1fr;}
+    .nav-links{display:none;}
+    .wrap{padding:0 20px;}
+    .unit-head{flex-direction:column;align-items:flex-start;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none !important;transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="brand"><span class="led"></span>nassim.zougar</div>
+    <div class="nav-links">
+      <a href="#competences">compétences</a>
+      <a href="#experience">expérience</a>
+      <a href="#formation">formation</a>
+      <a href="#contact">contact</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero wrap">
+  <div class="hero-intro">
+    <span class="badge">En alternance chez Mutuelle Harmonie · Bachelor Administrateur Systèmes & Réseaux — CESI, rentrée 2026</span>
+    <h1>Nassim Zougar<span class="role">Support informatique & administration réseaux</span></h1>
+    <p class="lead">Formé sur le terrain depuis 2022&nbsp;: dépannage, maintenance de parc, configuration de switches et premiers pas sur des équipements Cisco. Aujourd'hui en route vers l'administration systèmes et réseaux.</p>
+    <div class="location mono">📍 Saint-Germain-en-Laye, Île-de-France</div>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="#experience">Voir le parcours</a>
+      <a class="btn btn-ghost" href="mailto:nassimzougar@gmail.com">Me contacter</a>
+    </div>
+  </div>
+
+  <div class="terminal" aria-hidden="true">
+    <div class="terminal-bar">nassim-sw1 — console série</div>
+    <div class="terminal-body">
+      <p class="prompt">show interfaces status</p>
+      <div class="iface-table">
+        <div class="iface-row head">
+          <span>Port</span><span>Nom</span><span>Statut</span><span>Débit</span>
+        </div>
+        <div class="iface-row">
+          <span class="port">Gi0/1</span><span>Curieux</span><span class="status">up</span><span>1000</span>
+        </div>
+        <div class="iface-row">
+          <span class="port">Gi0/2</span><span>Sociable</span><span class="status">up</span><span>1000</span>
+        </div>
+        <div class="iface-row">
+          <span class="port">Gi0/3</span><span>Serieux</span><span class="status">up</span><span>1000</span>
+        </div>
+        <div class="iface-row">
+          <span class="port">Gi0/4</span><span>Patient</span><span class="status">up</span><span>1000</span>
+        </div>
+        <div class="iface-row">
+          <span class="port">Gi0/5</span><span>Autonome</span><span class="status">up</span><span>100</span>
+        </div>
+        <div class="iface-row">
+          <span class="port">Gi0/6</span><span>Ambitieux</span><span class="status">up</span><span>100</span>
+        </div>
+      </div>
+      <p class="prompt cursor">nassim-sw1#</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="competences">
+    <div class="section-head">
+      <span class="section-eyebrow">Fiche technique</span>
+      <h2>Compétences clés</h2>
+    </div>
+    <div class="chip-row">
+      <div class="chip"><span class="led"></span>Switches & routeurs Cisco</div>
+      <div class="chip"><span class="led"></span>Windows Server</div>
+      <div class="chip"><span class="led"></span>SQL</div>
+      <div class="chip"><span class="led"></span>Réparation matérielle</div>
+      <div class="chip"><span class="led"></span>Support utilisateurs</div>
+      <div class="chip"><span class="led"></span>VLAN & bases IOS</div>
+    </div>
+    <div class="spec-grid">
+      <div class="spec-card">
+        <span class="plate">Réseaux</span>
+        <h3>Infrastructures & Cisco</h3>
+        <p>Configuration de switches, câblage et maintien opérationnel d'équipements réseau. Premiers pas en environnement Cisco (CLI, VLAN) dans le cadre du Bachelor ASR.</p>
+      </div>
+      <div class="spec-card">
+        <span class="plate">Sécurité</span>
+        <h3>Cybersécurité</h3>
+        <p>Bases des environnements d'infrastructure et de sécurité informatique, découvertes en stage puis approfondies en formation.</p>
+      </div>
+      <div class="spec-card">
+        <span class="plate">Terrain</span>
+        <h3>Support & hardware</h3>
+        <p>Diagnostic et réparation de PC, smartphones et consoles ; assistance directe aux utilisateurs et résolution d'incidents.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience">
+    <div class="section-head">
+      <span class="section-eyebrow">Baie d'équipements — chronologique</span>
+      <h2>Expérience</h2>
+    </div>
+    <div class="rack">
+
+      <div class="unit current">
+        <div class="unit-head">
+          <h3>Agent multi-services</h3>
+          <span class="unit-date mono">Août 2026 · 1 mois</span>
+        </div>
+        <div class="role-line">Technip Energies <span class="loc">· Nanterre</span></div>
+        <ul>
+          <li>Suivi et traitement des demandes d'assistance</li>
+          <li>Assistance aux collaborateurs et résolution d'incidents techniques</li>
+          <li>Participation au maintien opérationnel des infrastructures et équipements</li>
+        </ul>
+      </div>
+
+      <div class="unit">
+        <div class="unit-head">
+          <h3>Stagiaire</h3>
+          <span class="unit-date mono">Décembre 2024 · 1 mois</span>
+        </div>
+        <div class="role-line">BDH Informatique <span class="loc">· Issy-les-Moulineaux</span></div>
+        <ul>
+          <li>Développement web</li>
+          <li>Participation à la création et à l'amélioration de fonctionnalités web</li>
+          <li>Mise en pratique des connaissances en développement informatique</li>
+        </ul>
+      </div>
+
+      <div class="unit">
+        <div class="unit-head">
+          <h3>Stagiaire</h3>
+          <span class="unit-date mono">Juin 2024 · 1 mois</span>
+        </div>
+        <div class="role-line">Almond <span class="loc">· Sèvres</span></div>
+        <ul>
+          <li>Découverte des fondamentaux de la cybersécurité</li>
+          <li>Gestion et configuration de switches réseau Cisco</li>
+          <li>Découverte des environnements d'infrastructure et de sécurité informatique</li>
+        </ul>
+      </div>
+
+      <div class="unit">
+        <div class="unit-head">
+          <h3>Stagiaire</h3>
+          <span class="unit-date mono">Mars 2024 · 1 mois</span>
+        </div>
+        <div class="role-line">Vivre Mobile</div>
+        <ul>
+          <li>Réparation et maintenance de smartphones</li>
+          <li>Diagnostic de pannes matérielles et logicielles</li>
+          <li>Intervention sur différents composants mobiles</li>
+        </ul>
+      </div>
+
+      <div class="unit">
+        <div class="unit-head">
+          <h3>Stagiaire</h3>
+          <span class="unit-date mono">Mars — Août 2023 · 6 mois</span>
+        </div>
+        <div class="role-line">KEYDATA <span class="loc">· Versailles</span></div>
+        <ul>
+          <li>Diagnostic et réparation de systèmes informatiques</li>
+          <li>Dépannage et assistance technique</li>
+          <li>Tests et validation du bon fonctionnement des équipements</li>
+        </ul>
+      </div>
+
+      <div class="unit">
+        <div class="unit-head">
+          <h3>Stagiaire</h3>
+          <span class="unit-date mono">Juin 2023 · 1 mois</span>
+        </div>
+        <div class="role-line">Culture Gaming <span class="loc">· Maisons-Laffitte</span></div>
+        <ul>
+          <li>Réparation et maintenance de PC et consoles</li>
+          <li>Diagnostic et résolution de pannes matérielles</li>
+          <li>Intervention sur du matériel informatique et gaming</li>
+        </ul>
+      </div>
+
+      <div class="unit">
+        <div class="unit-head">
+          <h3>Stagiaire</h3>
+          <span class="unit-date mono">Avril — Août 2022 · 5 mois</span>
+        </div>
+        <div class="role-line">Maintenance Informatique <span class="loc">· Montesson</span></div>
+        <ul>
+          <li>Maintenance et réparation de matériel informatique</li>
+          <li>Installation et configuration de solutions matérielles et logicielles</li>
+          <li>Diagnostic de problèmes techniques</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="formation">
+    <div class="section-head">
+      <span class="section-eyebrow">Certifications & diplômes</span>
+      <h2>Formation</h2>
+    </div>
+    <div class="cert-grid">
+      <div class="cert">
+        <span class="tag">À partir de la rentrée 2026</span>
+        <h3>Bachelor Administrateur Systèmes et Réseaux</h3>
+        <p>CESI — cursus incluant l'administration de serveurs, la sécurité des infrastructures et des modules réseaux alignés sur l'écosystème Cisco.</p>
+        <div class="period mono">2026 — en cours</div>
+      </div>
+      <div class="cert">
+        <span class="tag">Diplômé</span>
+        <h3>Baccalauréat professionnel Systèmes Numériques, option Informatique</h3>
+        <p>Lycée professionnel Jean Moulin — Le Chesnay-Rocquencourt</p>
+        <div class="period mono">Septembre 2022 — Juin 2025</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="contact-panel">
+      <h2>Me contacter</h2>
+      <div class="contact-row">
+        <a class="btn btn-primary" href="mailto:nassimzougar@gmail.com">✉ nassimzougar@gmail.com</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/zougar-nassim" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>© 2026 Nassim Zougar — Saint-Germain-en-Laye, France</footer>
+
+</body>
+</html>
